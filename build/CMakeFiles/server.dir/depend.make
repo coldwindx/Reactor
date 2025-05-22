@@ -13,7 +13,6 @@ CMakeFiles/server.dir/server.cpp.o: ../include/loop.hpp
 CMakeFiles/server.dir/server.cpp.o: ../include/socket.hpp
 CMakeFiles/server.dir/server.cpp.o: ../include/threadpool.hpp
 CMakeFiles/server.dir/server.cpp.o: ../include/timestamp.hpp
-CMakeFiles/server.dir/server.cpp.o: ../include/webserver.hpp
 CMakeFiles/server.dir/server.cpp.o: ../server.cpp
 
 CMakeFiles/server.dir/src/acceptor.cpp.o: ../include/acceptor.hpp
@@ -122,18 +121,5 @@ CMakeFiles/server.dir/src/threadpool.cpp.o: ../src/threadpool.cpp
 CMakeFiles/server.dir/src/timestamp.cpp.o: ../include/timestamp.hpp
 CMakeFiles/server.dir/src/timestamp.cpp.o: ../src/timestamp.cpp
 
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/acceptor.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/address.h
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/channel.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/epoll.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/http/httpconnection.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/http/httprequest.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/http/httpresponse.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/http/httpserver.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/loop.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/socket.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/threadpool.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/timestamp.hpp
-CMakeFiles/server.dir/src/webserver.cpp.o: ../include/webserver.hpp
 CMakeFiles/server.dir/src/webserver.cpp.o: ../src/webserver.cpp
 

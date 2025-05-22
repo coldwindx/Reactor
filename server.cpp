@@ -14,9 +14,9 @@
 #include "socket.hpp"
 #include "epoll.hpp"
 #include "loop.hpp"
-#include "webserver.hpp"
+#include "http/httpserver.hpp"
 
-WebServer *server;
+HttpServer *server;
 void stop(int sig)
 {
     // printf("sig=%d\n", sig);
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     signal(SIGTERM, stop);
     signal(SIGINT, stop);
 
-    server = new WebServer(argv[1], atoi(argv[2]), 10, 0);
+    server = new HttpServer(argv[1], atoi(argv[2]), 10, 0);
     server->start();
 
     return 0;

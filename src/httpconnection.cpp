@@ -58,7 +58,7 @@ void HttpConnection::readCallack()
 {
     int len = 0;
     char buf[4096];
-    // 1. 读取http请求头
+    // 1. 读取http请求行
     memset(buf, 0, sizeof(buf));
     len = readline(clientsock_->fd(), buf, sizeof(buf));
     if (CLOSED == errorno)
@@ -84,13 +84,13 @@ void HttpConnection::readCallack()
         ++j; // 跳过白空格
     for (int i = 0; !isspace(buf[j]) && i < sizeof(url) - 1; ++i, ++j)
         version[i] = buf[j];
-    // 1.4 读取HEADERS部分
+    // 2 读取请求头部
     do
     {
         memset(buf, 0, sizeof(buf));
         len = readline(clientsock_->fd(), buf, sizeof(buf));
     } while (len > 0);
-    // 1.5 读取body部分
+    // 3. 读取body部分
     do
     {
         memset(buf, 0, sizeof(buf));
@@ -98,10 +98,13 @@ void HttpConnection::readCallack()
         body.append(buf, len);
     } while (TERMINATION == errorno);
 
-    // 2. 解析http请求头部
-    // 3. 解析http请求数据
-    // 4. 响应http请求
-    shared_ptr<HttpRequest> request = std::make_shared<HttpRequest>(method, url, version, body);
+    // 4. 组装HttpRequest数据
+    shared_ptr<HttpRequest> request = std::make_shared<HttpRequest>();
+    request->method = std::move(method);
+    request->url = std::move(url);
+    request->version = std::move(version);
+    request->body = std::move(body);
+
     lastatime_ = Timestamp::now();
     recvcallback_(shared_from_this(), request);
     if (CLOSED == errorno)

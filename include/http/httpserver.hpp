@@ -14,13 +14,13 @@ using std::string, std::vector, std::shared_ptr, std::function, std::mutex;
 class HttpServer
 {
 public:
-    HttpServer(const string &ip, const uint16_t port, int threadnum = 3);
+    HttpServer(const string &ip, const uint16_t port, int porterNum = 3, int workerNum = 5);
     ~HttpServer() = default;
 
     void start() { mainloop_->run(); } // 运行事件循环
     void stop();
 
-    void connect(unique_ptr<Socket> clientsock);           // 新的客户端请求，由Acceptor类回调
+    void connect(unique_ptr<Socket> clientsock);                           // 新的客户端请求，由Acceptor类回调
     void recv(HttpConnection::Sptr conn, shared_ptr<HttpRequest> request); // 客户端请求报文，由Connection类回调
     void send(HttpConnection::Sptr conn, shared_ptr<HttpResponse> response);
     void timeout(EventLoop *loop);         // Epoll事件超时
@@ -36,10 +36,10 @@ public:
     void setErrorCallback(function<void(HttpConnection::Sptr)> callback) { errorcallback_ = callback; }
 
 private:
-    unique_ptr<EventLoop> mainloop_;              // 主事件循环
+    unique_ptr<EventLoop> mainloop_;         // 主事件循环
     vector<unique_ptr<EventLoop>> subloops_; // 从事件循环
-    int threadnum_;                                    // 线程池大小，即从事件的个数
-    ThreadPool threadpool_;
+    int _porternum, _workernum;              // 线程池大小，即从事件的个数 & 并行请求数
+    ThreadPool _porterpool, _workerpool;
 
     Acceptor acceptor_;
 
