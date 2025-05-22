@@ -4,7 +4,7 @@
 #include <sys/timerfd.h>
 #include <string.h>
 
-int createTiemrFd(int sec = 30)
+int createTimerFd(int sec = 30)
 {
     int tfd = timerfd_create(CLOCK_MONOTONIC, TFD_CLOEXEC | TFD_NONBLOCK);
     struct itimerspec timeout;
@@ -20,7 +20,7 @@ EventLoop::EventLoop(bool mainloop, int timetvl, int timeout)
       ep_(new Epoll),
       wakeupfd_(eventfd(0, EFD_NONBLOCK)),
       wakechannel_(new Channel(this, wakeupfd_)),
-      timerfd_(createTiemrFd(timeout)), timerchannel_(new Channel(this, timerfd_))
+      timerfd_(createTimerFd(timeout)), timerchannel_(new Channel(this, timerfd_))
 
 {
     wakechannel_->setReadCallback(std::bind(&EventLoop::afterWakeup, this));
@@ -78,7 +78,7 @@ void EventLoop::addTask(std::function<void()> fn)
     wakeup();
 }
 
-void EventLoop::addConnection(std::shared_ptr<Connection> conn)
+void EventLoop::addConnection(std::shared_ptr<HttpConnection> conn)
 {
     std::lock_guard<std::mutex> gd(connsmutex_);
     conns_[conn->fd()] = conn;

@@ -5,11 +5,11 @@
 #include <queue>
 #include <map>
 #include <memory>
-#include "connection.hpp"
+#include "http/httpconnection.hpp"
 
 class Channel;
 class Epoll;
-class Connection;
+class HttpConnection;
 
 // 事件循环类
 class EventLoop
@@ -25,12 +25,12 @@ public:
     void removechannel(Channel *ch);
 
     void setEpollTimoutCallback(std::function<void(EventLoop *)> callback) { epolltimeoutcalback_ = callback; }
-    void setTiemrCallback(std::function<void(int)> callback) { timercallback_ = callback; }
+    void setTimerCallback(std::function<void(int)> callback) { timercallback_ = callback; }
 
     bool isInLoopThread();
 
     void addTask(std::function<void()> fn);
-    void addConnection(std::shared_ptr<Connection> conn);
+    void addConnection(std::shared_ptr<HttpConnection> conn);
 
     void wakeup();
     void afterWakeup();
@@ -52,7 +52,7 @@ private:
 
     bool mainloop_;
     std::mutex connsmutex_;
-    std::map<int, std::shared_ptr<Connection>> conns_;
+    std::map<int, std::shared_ptr<HttpConnection>> conns_;
     std::function<void(int)> timercallback_;
     int timetvl_;
     int timeout_;

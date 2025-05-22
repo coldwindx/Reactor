@@ -7,7 +7,7 @@ Connection::Connection(EventLoop *loop, std::unique_ptr<Socket> clientsock)
     : loop_(loop), clientsock_(std::move(clientsock)), disconnect_(false),
       clientchanel_(new Channel(loop_, clientsock_->fd()))
 {
-    clientchanel_->setReadCallback(std::bind(&Connection::onMessage, this));
+    clientchanel_->setReadCallback(std::bind(&Connection::readCallack, this));
     clientchanel_->setWriteCallback(std::bind(&Connection::writeCallback, this));
     clientchanel_->setCloseCallback(std::bind(&Connection::closeCallback, this));
     clientchanel_->setErrorCallback(std::bind(&Connection::errorCallback, this));
@@ -15,17 +15,14 @@ Connection::Connection(EventLoop *loop, std::unique_ptr<Socket> clientsock)
     clientchanel_->enableReading();
 }
 
-Connection::~Connection()
-{
-    // printf("Connection release!\n");
-}
-
-void Connection::onMessage()
+void Connection::readCallack()
 {
     char buf[4096];
+    ssize_t nread = 0;
     while (true)
     {
         memset(buf, 0, sizeof(buf));
+
         ssize_t nread = read(clientsock_->fd(), buf, sizeof(buf));
         if (0 < nread)
         {
@@ -41,8 +38,8 @@ void Connection::onMessage()
                 if(false == inputbuf_.pick(msg))
                     break;
                 lastatime_ = Timestamp::now();
-                // 回调TcpServer::onMessage()
-                messagecallback_(shared_from_this(), msg);
+                // 回调TcpServer::readCallack()
+                recvcallback_(shared_from_this(), msg);
             }
             break;
         }
@@ -54,15 +51,13 @@ void Connection::onMessage()
         }
         // 读取数据的时候，被信号中断，继续读取
         if (-1 == nread && EINTR == errno)
-        {
             continue;
-        }
     }
+    inputbuf_.clear();
 }
 
 void Connection::writeCallback()
 {
-    // printf("Connection::writeCallback() thread is %ld.\n", syscall(SYS_gettid));
     int writen = ::send(fd(), outputbuf_.data(), outputbuf_.size(), 0);
     if (0 < writen)
         outputbuf_.erase(0, writen);
@@ -91,10 +86,7 @@ void Connection::errorCallback()
 void Connection::send(const std::string &msg, size_t size)
 {
     if (disconnect_)
-    {
-        // printf("Client connection has disconnected.\n");
         return;
-    }
     if (loop_->isInLoopThread())
         return syncSend(msg, size);
 

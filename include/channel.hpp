@@ -34,7 +34,7 @@ public:
 
     void handle(); // 处理epoll_wait()返回的事件
 
-private:
+protected:
     int fd_; // Channel和fd是一一对应关系
     EventLoop *loop_;
     bool inepoll_ = false; // Channel是否已经添加到Epoll树上

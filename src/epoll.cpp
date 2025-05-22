@@ -63,21 +63,21 @@ std::vector<Channel *> Epoll::loop(int timeout)
     std::vector<Channel *> channels;
     bzero(events_, sizeof(events_));
 
-    int infds = epoll_wait(epollfd_, events_, MaxEvents, timeout);
-    // 返回失败
+    int infds = epoll_wait(epollfd_, events_, MaxEventNum, timeout);
+    // case 1: 返回失败
     if (infds < 0)
     {
         printf("%s:%s:%d epoll event wait error: %d\n", __FILE__, __FUNCTION__, __LINE__, errno);
         exit(-1);
     }
-    // 超时。如果epool_wait()超时，表示系统很空闲，返回的channels为空。
+    // case 2: 超时，如果epool_wait()超时，表示系统很空闲，返回的channels为空。
     if (infds == 0)
     {
         printf("%s:%s:%d epoll event wait timeout.\n", __FILE__, __FUNCTION__, __LINE__);
         return channels;
     }
 
-    // infds > 0，表示有事件发生的 fd
+    // case 3: infds > 0，表示有事件发生的 fd
     for (int i = 0; i < infds; ++i)
     {
         Channel *ch = (Channel *)events_[i].data.ptr;
