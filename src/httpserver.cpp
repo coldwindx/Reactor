@@ -53,8 +53,7 @@ void HttpServer::connect(std::unique_ptr<Socket> clientsock)
 
 void HttpServer::recv(HttpConnection::Sptr conn, shared_ptr<HttpRequest> request)
 {
-
-    auto toSend = [&]()
+    static auto toSend = [&]()
     {
         shared_ptr<HttpResponse> response = std::make_shared<HttpResponse>();
         response->setVersion("HTTP/1.0");
@@ -81,7 +80,7 @@ void HttpServer::recv(HttpConnection::Sptr conn, shared_ptr<HttpRequest> request
         response->addHeader("Server", "Web Server");
         response->addHeader("Content-Type", "text/html");
         response->addHeader("Connection", "Close");
-        // response.addHeader("Content-Length", std::to_string(response.getBody().size()));
+
         // TODO: 这里如果conn被reactor线程释放，出现野指针 ---> 智能指针
         conn->send(response);
     };
