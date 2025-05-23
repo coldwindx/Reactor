@@ -53,6 +53,14 @@ void HttpServer::connect(std::unique_ptr<Socket> clientsock)
 
 void HttpServer::recv(HttpConnection::Sptr conn, shared_ptr<HttpRequest> request)
 {
+    /*
+        Todo 这里将request根据url分配至不同的controller，并获取返回值
+    */
+
+    
+    /**
+     * @brief 接收Controller的返回值，封装成HttpResponse对象
+     */
     static auto toSend = [&]()
     {
         shared_ptr<HttpResponse> response = std::make_shared<HttpResponse>();

@@ -15,6 +15,7 @@
 #include "epoll.hpp"
 #include "loop.hpp"
 #include "http/httpserver.hpp"
+#include "http/httpmethod.h"
 
 HttpServer *server;
 void stop(int sig)
@@ -28,6 +29,13 @@ void stop(int sig)
 
 int main(int argc, char *argv[])
 {
+    HttpMethod method = HttpMethod::POST;
+    printf("%s\n", GetEnumName(method).data());
+    method = SetEnum<HttpMethod>("GET");
+    printf("%s\n", GetEnumName(method).data());
+
+    return 0;
+
     if (argc != 3)
     {
         printf("usage: ./server ip port\n");
