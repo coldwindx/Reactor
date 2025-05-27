@@ -1,10 +1,11 @@
 #pragma once
+#include <string.h>
 #include <string>
 #include <string_view>
 #include <stdexcept>
 #include "enumutils.h"
 
-using std::string_view;
+using std::string, std::string_view;
 
 enum class HttpMethod
 {
@@ -13,7 +14,7 @@ enum class HttpMethod
 #undef HTTP_METHOD_ENUM
 };
 
-string_view GetEnumName(HttpMethod method)
+static string_view GetEnumName(HttpMethod method)
 {
 #define HTTP_METHOD_ENUM(x) \
     case HttpMethod::x:                 \
@@ -27,7 +28,7 @@ string_view GetEnumName(HttpMethod method)
 }
 
 template <>
-HttpMethod SetEnum<HttpMethod>(string_view name)
+inline HttpMethod SetEnum<HttpMethod>(string_view name)
 {
 #define HTTP_METHOD_ENUM(x)                             \
     if (0 == strncasecmp(name.data(), #x, name.size())) \

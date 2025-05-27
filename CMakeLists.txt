@@ -12,8 +12,11 @@ FILE(GLOB_RECURSE SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-add_executable(server server.cpp ${SRC_LIST})
-target_link_libraries(server PUBLIC Threads::Threads)
+# add_executable(server server.cpp ${SRC_LIST})
+# target_link_libraries(server PUBLIC Threads::Threads)
+
+add_executable(test_mapping test/test_mapping.cpp ${SRC_LIST})
+target_link_libraries(test_mapping PUBLIC Threads::Threads)
 
 add_executable(client client.cpp ${SRC_LIST})
 target_link_libraries(client PUBLIC Threads::Threads)

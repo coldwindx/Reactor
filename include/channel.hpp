@@ -4,6 +4,8 @@
 #include "socket.hpp"
 #include "loop.hpp"
 
+using std::function;
+
 class EventLoop;
 // TCP连接通道类
 class Channel
@@ -27,10 +29,10 @@ public:
     uint32_t events() { return events_; }
     uint32_t revents() { return revents_; }
 
-    void setReadCallback(std::function<void()> callback) { readcallback_ = callback; }
-    void setWriteCallback(std::function<void()> callback) { writecallback_ = callback; }
-    void setCloseCallback(std::function<void()> callback) { closecallback_ = callback; }
-    void setErrorCallback(std::function<void()> callback) { errorcallback_ = callback; }
+    void setReadCallback(function<void()> callback) { readcallback_ = callback; }
+    void setWriteCallback(function<void()> callback) { writecallback_ = callback; }
+    void setCloseCallback(function<void()> callback) { closecallback_ = callback; }
+    void setErrorCallback(function<void()> callback) { errorcallback_ = callback; }
 
     void handle(); // 处理epoll_wait()返回的事件
 
@@ -41,8 +43,8 @@ protected:
     uint32_t events_ = 0;  // fd_需要监听的事件
     uint32_t revents_ = 0; // fd_需要响应的事件
 
-    std::function<void()> readcallback_;  // fd读事件的回调函数
-    std::function<void()> writecallback_; // fd写事件，回调Connection::writeCallback()
-    std::function<void()> closecallback_; // fd关闭，回调Connection::closeCallback()
-    std::function<void()> errorcallback_; // fd错误，回调Connection::errorCallback()
+    function<void()> readcallback_;  // fd读事件的回调函数
+    function<void()> writecallback_; // fd写事件，回调Connection::writeCallback()
+    function<void()> closecallback_; // fd关闭，回调Connection::closeCallback()
+    function<void()> errorcallback_; // fd错误，回调Connection::errorCallback()
 };

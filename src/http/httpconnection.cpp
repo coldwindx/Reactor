@@ -73,6 +73,7 @@ void HttpConnection::readCallack()
     int j = 0;
     for (int i = 0; !isspace(buf[j]) && i < sizeof(method) - 1; ++i, ++j)
         method[i] = buf[j];
+    
     // if (0 == strncasecmp(method, "GET", sizeof(method)))
     while (isspace(buf[j]))
         ++j; // 跳过白空格

@@ -5,7 +5,7 @@
 #include "acceptor.hpp"
 #include "httpconnection.hpp"
 #include "threadpool.hpp"
-#include "httprequest.hpp"
+#include "httprequest.h"
 #include "httpresponse.hpp"
 
 using std::string, std::vector, std::shared_ptr, std::function, std::mutex;

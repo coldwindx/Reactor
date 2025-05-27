@@ -4,7 +4,7 @@
 #include "loop.hpp"
 #include "timestamp.hpp"
 #include "channel.hpp"
-#include "httprequest.hpp"
+#include "httprequest.h"
 #include "httpresponse.hpp"
 
 using std::string, std::unique_ptr, std::shared_ptr, std::atomic, std::function;
