@@ -1,0 +1,25 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/test_mapping.dir/src/acceptor.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/address.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/buffer.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/channel.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/connection.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/ctcp.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/epoll.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/http/httpconnection.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/http/httpserver.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/loop.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/socket.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/threadpool.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/timestamp.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/web/mapping.cpp.o"
+  "CMakeFiles/test_mapping.dir/src/web/servlet.cpp.o"
+  "CMakeFiles/test_mapping.dir/test/test_mapping.cpp.o"
+  "test_mapping"
+  "test_mapping.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/test_mapping.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

@@ -1,0 +1,4 @@
+/home/zhulin/workspace/Reactor/build/CMakeFiles/rebuild_cache.dir
+/home/zhulin/workspace/Reactor/build/CMakeFiles/edit_cache.dir
+/home/zhulin/workspace/Reactor/build/CMakeFiles/client.dir
+/home/zhulin/workspace/Reactor/build/CMakeFiles/test_mapping.dir
